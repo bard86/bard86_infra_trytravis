@@ -22,3 +22,13 @@ User appuser
 ProxyCommand ssh -q -W %h:%p bastion
 
 use command `ssh someinternalhost` to connect
+
+##### Install VPN server & and connect by openVPN
+#
+install vpn server executing script `setupvpn.sh`
+use `cloud-bastion.ovpn` configuration file for openVPN connect
+
+IP for test:
+
+bastion_IP = 35.228.188.53
+someinternalhost_IP = 10.166.0.3
