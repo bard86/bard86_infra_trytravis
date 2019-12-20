@@ -1,3 +1,5 @@
+#!/bin/bash
+
 sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list << EOF
 deb https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse
 EOF
