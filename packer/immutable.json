@@ -1,0 +1,41 @@
+{
+	"variables": {
+		"project_id": null,
+		"source_image_family": null,
+		"machine_type": null
+	},
+    "builders": [
+        {
+            "type": "googlecompute",
+            "project_id": "{{user `project_id`}}",
+            "image_name": "reddit-full-{{timestamp}}",
+            "image_family": "reddit-full",
+            "source_image_family": "{{user `source_image_family`}}",
+            "zone": "europe-north1-a",
+            "ssh_username": "appuser",
+            "machine_type": "{{user `machine_type`}}",
+		"image_description": "app baked in reddit-base image"
+
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "script": "scripts/deploy.sh",
+            "execute_command": "sudo {{.Path}}"
+        },
+	{
+            "type": "file",
+            "source": "files/puma.service",
+            "destination": "/tmp/puma.service"
+	},
+        {
+            "type": "shell",
+            "inline": "sudo mv /tmp/puma.service /etc/systemd/system/puma.service && sudo chmod 644 /etc/systemd/system/puma.service"
+        },    
+        {
+            "type": "shell",
+            "inline": "sudo systemctl enable puma"
+        }
+    ]
+}
