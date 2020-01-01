@@ -65,13 +65,13 @@ testapp_port = 9292
 
 ##### Packer
 
-create Application Default Credentials (ADC): `gcloud auth application-default login`
-create Packer template `packer\ubuntu16.json`
-validate config: `packer validate ubuntu16.json` 
-build imege: `packer build ubuntu16.json`
-extract sensitive variables to file `variables.json`, use it with build parameter `-var-file=variables.json`
-use `"source_image_family": "reddit-base"` to bake image with deployed app, we used `packer\files\puma.service` to start puma service by systemd
-to create vm run script:
+create Application Default Credentials (ADC): `gcloud auth application-default login`  
+create Packer template `packer\ubuntu16.json`  
+validate config: `packer validate ubuntu16.json`   
+build imege: `packer build ubuntu16.json`  
+extract sensitive variables to file `variables.json`, use it with build parameter `-var-file=variables.json`  
+use `"source_image_family": "reddit-base"` to bake image with deployed app, we used `packer\files\puma.service` to start puma service by systemd  
+to create vm run script:  
 ```console
 gcloud compute instances create reddit-app\
   --boot-disk-size=10GB \

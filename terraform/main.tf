@@ -9,9 +9,10 @@ provider "google" {
 }
 
 resource "google_compute_instance" "app" {
-  name         = "reddit-app"
-  machine_type = "g1-small"
-  zone         = "europe-north1-b"
+  count        = var.instance_count
+  name         = "reddit-app-${count.index + 1}"
+  machine_type = "f1-micro"
+  zone         = "${var.region}-${var.zone}"
   tags         = ["reddit-app"]
   boot_disk {
     initialize_params {
@@ -33,7 +34,7 @@ resource "google_compute_instance" "app" {
     host        = self.network_interface[0].access_config[0].nat_ip
     user        = "appuser"
     agent       = false
-    private_key = file("C:/Users/denis/.ssh/appuser")
+    private_key = file(var.private_key_path)
   }
 
   provisioner "file" {
@@ -57,3 +58,11 @@ resource "google_compute_firewall" "firewall_puma" {
   target_tags   = ["reddit-app"]
 }
 
+resource "google_compute_project_metadata_item" "ssh-keys" {
+  key   = "ssh-keys"
+  value = <<EOF
+  appuser1:${file(var.public_key_path)}
+  appuser2:${file(var.public_key_path)}
+  appuser3:${file(var.public_key_path)}
+  EOF
+}
