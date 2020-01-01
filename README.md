@@ -1,10 +1,10 @@
 # bard86_infra
 bard86 Infra repository
   
-##### Connect to someinternalhost through bastion host  
+## Connect to someinternalhost through bastion host  
 `ssh -i ~/.ssh/appuser -J appuser@35.228.188.53 appuser@10.166.0.3`
 
-##### Connect to someinternalhost through bastion host using alias  
+## Connect to someinternalhost through bastion host using alias  
 add to `~/.ssh/config`:  
 
 ```console
@@ -25,7 +25,7 @@ ProxyCommand ssh -q -W %h:%p bastion
 
 use command `ssh someinternalhost` to connect  
   
-##### Install VPN server & and connect by openVPN  
+## Install VPN server & and connect by openVPN  
 install vpn server executing script `vpn/setupvpn.sh`  
 use `vpn/cloud-bastion.ovpn` configuration file for openVPN connect  
   
@@ -34,7 +34,7 @@ IP for test:
 bastion_IP = 35.228.188.53  
 someinternalhost_IP = 10.166.0.3  
   
-##### Test app deploy  
+## Test app deploy  
 create bucket for store startup script `gsutil mb gs://otus-devops-denis-barsukov-bucket/`  
 copy startup_script.s to bucket `gsutil cp .\startup_script.sh gs://otus-devops-denis-barsukov-bucket/`  
   
@@ -63,15 +63,15 @@ Test url: http://35.228.226.232:9292/
 testapp_IP = 35.228.226.232  
 testapp_port = 9292  
 
-##### Packer
+## Packer
 
 create Application Default Credentials (ADC): `gcloud auth application-default login`  
 create Packer template `packer\ubuntu16.json`  
-validate config: `packer validate ubuntu16.json`   
-build imege: `packer build ubuntu16.json`  
+validate configuration file: `packer validate ubuntu16.json`   
+build image: `packer build ubuntu16.json`  
 extract sensitive variables to file `variables.json`, use it with build parameter `-var-file=variables.json`  
 use `"source_image_family": "reddit-base"` to bake image with deployed app, we used `packer\files\puma.service` to start puma service by systemd  
-to create vm run script:  
+to create VM run script:  
 ```console
 gcloud compute instances create reddit-app\
   --boot-disk-size=10GB \
@@ -81,4 +81,13 @@ gcloud compute instances create reddit-app\
   --restart-on-failure
 ```
 
+## Terraform-1
+  
+load balancer, pool and health check were described in `lb.tf`  
+load balancer IP address added to `output.tf`   
+zone, private_key_path and number of instances were added to `variables.tf`  
+extract new variables from `main.tf` to `terraform.tfvars`  
+`terraform.tfvars.example` was updated
+ssh keys were added to project metadata
 
+> **Warning:** Be careful, don't overwrite values, that were added manually
