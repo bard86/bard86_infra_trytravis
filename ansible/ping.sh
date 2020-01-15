@@ -1,2 +1,2 @@
-ansible appserver -i ./inventory -m ping
-ansible dbserver -i ./inventory -m ping
+ansible appserver -m ping
+ansible dbserver -m ping
