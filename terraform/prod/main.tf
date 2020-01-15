@@ -3,16 +3,23 @@ terraform {
 }
 
 provider "google" {
-  version = "2.15"
+  version = "~> 2.15"
   project = var.project
   region  = var.region
 }
 
+provider "null" {
+  version = "~> 2.1"
+}
+
 module "app" {
-  source          = "../modules/app"
-  public_key_path = var.public_key_path
-  zone            = var.zone
-  app_disk_image  = var.app_disk_image
+  source             = "../modules/app"
+  public_key_path    = var.public_key_path
+  private_key_path   = var.private_key_path
+  zone               = var.zone
+  app_disk_image     = var.app_disk_image
+  db_internal_ip     = module.db.db_internal_ip
+  app_deploy_enabled = true
 }
 
 module "db" {
@@ -24,5 +31,5 @@ module "db" {
 
 module "vpc" {
   source        = "../modules/vpc"
-  source_ranges = ["194.15.117.12/32"]
+  source_ranges = var.ip_source_ranges
 }

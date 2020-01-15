@@ -2,3 +2,4 @@ project          = "infra-123456"
 public_key_path  = "~/.ssh/appuser.pub"
 app_disk_image   = "reddit-app-base"
 db_disk_image    = "reddit-db-base"
+ip_source_ranges = ["194.15.117.12/32"]
