@@ -42,3 +42,9 @@ variable ip_source_ranges {
   type        = list(string)
   default     = ["0.0.0.0/0"]
 }
+
+variable app_deploy_enabled {
+  description = "If this parameter is true, the app will be installed automatically"
+  type        = bool
+  default     = false
+}
