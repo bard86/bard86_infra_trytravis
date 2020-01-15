@@ -1,2 +1,1 @@
-ansible appserver -m ping
-ansible dbserver -m ping
+ansible all -m ping -i inventory.yml
