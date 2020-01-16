@@ -91,3 +91,17 @@ extract new variables from `main.tf` to `terraform.tfvars`
 ssh keys were added to project metadata
 
 > **Warning:** Be careful, don't overwrite values, that were added manually
+
+## Terraform-2
+
+exclude load balancer from infrastructure (move `lb.tf` to `terraform/files`)
+change app instance count to 1 
+import firewall ssh rule to state file  
+create application external ip address resource  
+create compute engine image for app instance  
+create compute engine image for db instance  
+create modules: app, db, vpc  
+create stage&prod envs  
+add storage bucket (using `SweetOps/storage-bucket/google` module)  
+add remote backend based on gcs (described in `backend.tf`)  
+add provisioners to app module to deploy app automatically (optional, depends on `app_deploy_enabled` variable value)  
