@@ -120,3 +120,4 @@ add clone repo script, clone repo playbook (`ansible-playbook clone.yml`)
 >difference: changed=1
   
 change inventory source to `./dynamic_inventory.py` script  
+change inventory source to `./inventory.json`  
