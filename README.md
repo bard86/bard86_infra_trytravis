@@ -128,10 +128,19 @@ change inventory source to `./inventory.json`
  - up infrastructure `cd terraform/stage/ && terraform apply`   
  - create template for mongod `ansible/templates/mongod.conf.j2`  
  - create template for db connection `ansible/templates/db_config.j2`  
+
  - create playbook `ansible/reddit_app.yml`  
- - check playbook for db instance: `ansible-playbook reddit_app.yml --check --limit db`  
- - run playbook for db instance: `ansible-playbook reddit_app.yml --limit db`  
+ - check playbook for db instance: `ansible-playbook reddit_app.yml --check --limit db --tags db-tag`  
+ - run playbook for db instance: `ansible-playbook reddit_app.yml --limit db --tags db-tag`  
  - check playbook for app instance: `ansible-playbook reddit_app.yml --check --limit app --tags app-tag`  
  - run playbook for app instance: `ansible-playbook reddit_app.yml --limit app --tags app-tag`  
  - check playbook for app deploy: `ansible-playbook reddit_app.yml --check --limit app --tags deploy-tag`  
- - run playbook for app deploy: `ansible-playbook reddit_app.yml --limit app --tags deploy-tag`  
+ - run playbook for app deploy: `ansible-playbook reddit_app.yml --limit app --tags deploy-tag` 
+ 
+ - create playbook2 with multiple scenarios `ansible/reddit_app2.yml`  
+ - check playbook2 for db instance: `ansible-playbook reddit_app2.yml --check --tags db-tag`  
+ - run playbook2 for db instance: `ansible-playbook reddit_app2.yml --tags db-tags`  
+ - check playbook2 for app instance: `ansible-playbook reddit_app2.yml --check --tags app-tag`  
+ - run playbook2 for app instance: `ansible-playbook reddit_app2.yml --tags app-tag`  
+ - check playbook2 for app deploy: `ansible-playbook reddit_app2.yml --check --tags deploy-tag`  
+ - run playbook2 for app deploy: `ansible-playbook reddit_app2.yml --tags deploy-tag`  
