@@ -121,3 +121,17 @@ add clone repo script, clone repo playbook (`ansible-playbook clone.yml`)
   
 change inventory source to `./dynamic_inventory.py` script  
 change inventory source to `./inventory.json`  
+
+## Ansible-2
+ - disable app auto deploy (terraform/stage/terraform.tfvars), delete mongo db provisioners(packer/db.json)  
+ - create new db image with mongod default config `packer/create-reddit-db-image.sh`  
+ - up infrastructure `cd terraform/stage/ && terraform apply`   
+ - create template for mongod `ansible/templates/mongod.conf.j2`  
+ - create template for db connection `ansible/templates/db_config.j2`  
+ - create playbook `ansible/reddit_app.yml`  
+ - check playbook for db instance: `ansible-playbook reddit_app.yml --check --limit db`  
+ - run playbook for db instance: `ansible-playbook reddit_app.yml --limit db`  
+ - check playbook for app instance: `ansible-playbook reddit_app.yml --check --limit app --tags app-tag`  
+ - run playbook for app instance: `ansible-playbook reddit_app.yml --limit app --tags app-tag`  
+ - check playbook for app deploy: `ansible-playbook reddit_app.yml --check --limit app --tags deploy-tag`  
+ - run playbook for app deploy: `ansible-playbook reddit_app.yml --limit app --tags deploy-tag`  
