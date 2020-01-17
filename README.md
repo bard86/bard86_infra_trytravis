@@ -105,3 +105,19 @@ create stage&prod envs
 add storage bucket (using `SweetOps/storage-bucket/google` module)  
 add remote backend based on gcs (described in `backend.tf`)  
 add provisioners to app module to deploy app automatically (optional, depends on `app_deploy_enabled` variable value)  
+
+## Ansible-1
+
+install Python 2.7.17, pip 19.3.1, ansible 2.8.4  
+up stage infrastructure, test ssh connection
+create ansible inventory file  
+test connection with ansible ping module `ansible appserver -i ./inventory -m ping`  
+create `ansible.cfg` with default settings, remove excess information from invetory file 
+add groups to ansible inventory file  
+switch to new inventory file format (ini -> yaml) `https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html`  
+check that the components for application are available (`check_components_availability.sh` which using `shell` and `service` modules)  
+add clone repo script, clone repo playbook (`ansible-playbook clone.yml`)  
+>difference: changed=1
+  
+change inventory source to `./dynamic_inventory.py` script  
+change inventory source to `./inventory.json`  
