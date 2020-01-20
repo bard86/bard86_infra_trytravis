@@ -121,3 +121,38 @@ add clone repo script, clone repo playbook (`ansible-playbook clone.yml`)
   
 change inventory source to `./dynamic_inventory.py` script  
 change inventory source to `./inventory.json`  
+
+## Ansible-2
+ - disable app auto deploy (terraform/stage/terraform.tfvars), delete mongo db provisioners(packer/db.json)  
+ - create new db image with mongod default config `$ ./packer/create-reddit-db-image.sh`  
+ - up infrastructure `$ cd ./terraform/stage/ && terraform apply`   
+ - create template for mongod `./ansible/templates/mongod.conf.j2`  
+ - create template for db connection `./ansible/templates/db_config.j2`  
+
+ - create playbook `./ansible/reddit_app.yml`  
+ - check playbook for db instance: `$ ansible-playbook reddit_app.yml --check --limit db --tags db-tag`  
+ - run playbook for db instance: `$ ansible-playbook reddit_app.yml --limit db --tags db-tag`  
+ - check playbook for app instance: `$ ansible-playbook reddit_app.yml --check --limit app --tags app-tag`  
+ - run playbook for app instance: `$ ansible-playbook reddit_app.yml --limit app --tags app-tag`  
+ - check playbook for app deploy: `$ ansible-playbook reddit_app.yml --check --limit app --tags deploy-tag`  
+ - run playbook for app deploy: `$ ansible-playbook reddit_app.yml --limit app --tags deploy-tag` 
+ 
+ - create playbook2 with multiple scenarios `./ansible/reddit_app2.yml`  
+ - check playbook2 for db instance: `$ ansible-playbook reddit_app2.yml --check --tags db-tag`  
+ - run playbook2 for db instance: `$ ansible-playbook reddit_app2.yml --tags db-tags`  
+ - check playbook2 for app instance: `$ ansible-playbook reddit_app2.yml --check --tags app-tag`  
+ - run playbook2 for app instance: `$ ansible-playbook reddit_app2.yml --tags app-tag`  
+ - check playbook2 for app deploy: `$ ansible-playbook reddit_app2.yml --check --tags deploy-tag`  
+ - run playbook2 for app deploy: `$ ansible-playbook reddit_app2.yml --tags deploy-tag`  
+
+ - print list of avalible inventory plugins `$ ansible-doc -t inventory -l`  
+ - add inventory plugin `gcp_compute` (https://docs.ansible.com/ansible/latest/plugins/inventory/gcp_compute.html)  
+ - create gcp_compute plugin config `./ansible/gcp_compute.yml`
+ - create service account key `~/.gsutil/key.json` (https://cloud.google.com/iam/docs/creating-managing-service-account-keys#iam-service-account-keys-create-gcloud)
+ - test gcp_compute plugin `$ ansible-inventory -i gcp_compute.yml --graph`
+ - modify `ansible.cfg` and playbooks to use inventory data  
+
+ - add playbooks for packer: `./ansible/packer_app.json` and `./ansible/packer_db.json`  
+ - integrate ansible with packer `./packer/app.json` and `./packer/db.json`  
+ - create new db & app images  
+ - run `$ ansible-playbook site.yml` to depoly infrastructure and app  
